@@ -1,0 +1,6 @@
+@MgmtAPI_HostAddress = http://localhost:5102
+
+GET {{MgmtAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
