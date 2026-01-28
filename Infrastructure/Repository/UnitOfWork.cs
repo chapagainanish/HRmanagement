@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.Data;
 using Domain.Interfaces;
@@ -15,10 +16,23 @@ namespace Infrastructure.Repository
         private PayrollRepository _payrollRepo;
         private TravelExpenseRepository _travelExpenseRepo;
         private UserRepository _userRepo;
+        private RefreshTokenRepository _refreshToken;
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public IRefreshTokenRepository RefreshToken
+        {
+            get
+            {
+                if (_refreshToken == null)
+                {
+                    _refreshToken = new RefreshTokenRepository(_context);
+                }
+                return _refreshToken;
+            }
         }
 
         public IEmployeeRepository Employees
@@ -93,14 +107,14 @@ namespace Infrastructure.Repository
             }
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async ValueTask DisposeAsync()
+        public void Dispose()
         {
-            await _context.DisposeAsync();
+            _context.Dispose();
         }
     }
 }

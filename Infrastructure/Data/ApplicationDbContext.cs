@@ -28,6 +28,8 @@ namespace Infrastructure.Data
         public DbSet<Performance> Performances { get; set; }
         public DbSet<Recruitment> Recruitments { get; set; }
         public DbSet<TravelExpense> Expenses { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; } // New DbSet for RefreshToken
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -108,8 +110,6 @@ namespace Infrastructure.Data
             });
 
             
-
-            // User (no FK) 
             modelBuilder.Entity<User>(u =>
             {
                 u.HasKey(x => x.UserId);
@@ -119,8 +119,8 @@ namespace Infrastructure.Data
                     {
                         UserId = 1,
                         FullName = "Admin User",
-                        Email = "admin@acme.com",
-                        PasswordHash = "HASHED_PASSWORD_PLACEHOLDER",
+                        Email = "admin@gmail.com",
+                        PasswordHash = "admin",
                         Role = "Admin",
                         IsActive = true,
                         CreatedAt = new DateTime(2024, 1, 1)
@@ -210,6 +210,18 @@ namespace Infrastructure.Data
                         Status = "Approved"
                     }
                 );
+            });
+
+            // RefreshToken
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Token).IsRequired().HasMaxLength(500);
+                entity.HasIndex(e => e.Token).IsUnique();
+                entity.HasOne(e => e.User)
+                      .WithMany(u => u.RefreshTokens)
+                      .HasForeignKey(e => e.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

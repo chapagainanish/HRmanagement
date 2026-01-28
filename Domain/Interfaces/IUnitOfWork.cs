@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IUnitOfWork : IAsyncDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IEmployeeRepository Employees { get; }
         IOrganizationRepository Organizations { get; }
@@ -11,7 +11,8 @@ namespace Domain.Interfaces
         IPayrollRepository Payrolls { get; }
         ITravelExpenseRepository TravelExpences { get; }
         IUserRepository Users { get; }
+        IRefreshTokenRepository RefreshToken { get; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

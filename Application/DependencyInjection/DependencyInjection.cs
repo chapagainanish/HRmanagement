@@ -16,7 +16,7 @@ namespace Application.DependencyInjection
             services.AddScoped<IPayrollService, PayrollService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITravelExpenseService, TravelExpenseService>();
-            
+            services.AddScoped<IAuthService, AuthService>();
             //takes all the validators from this assembly
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
@@ -44,6 +44,11 @@ namespace Application.DependencyInjection
             //// Travel Expense validators
             //services.AddScoped<IValidator<CreateTravelExpenseDto>, CreateTravelExpenseDtoValidator>();
             //services.AddScoped<IValidator<UpdateTravelExpenseDto>, UpdateTravelExpenseDtoValidator>();
+
+            //Auth Validators
+            services.AddScoped<IValidator<LoginDto>, LoginDtoValidator>();
+            services.AddScoped<IValidator<RegisterDto>, RegisterDtoValidator>();
+            services.AddScoped<IValidator<RefreshTokenDto>, RefreshTokenDtoValidator>();
 
             return services;
         }
