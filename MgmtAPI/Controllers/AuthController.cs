@@ -16,10 +16,6 @@ namespace MgmtAPI.Controllers
             _authService = authService;
         }
 
-        /// <summary>
-        /// Login with email and password
-        /// POST: api/auth/login
-        /// </summary>
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto dto)
@@ -31,11 +27,6 @@ namespace MgmtAPI.Controllers
             }
             return Ok(result);
         }
-
-        /// <summary>
-        /// Register a new user
-        /// POST: api/auth/register
-        /// </summary>
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterDto dto)
@@ -43,12 +34,7 @@ namespace MgmtAPI.Controllers
             var result = await _authService.RegisterAsync(dto);
             return CreatedAtAction(nameof(Login), result);
         }
-
-        /// <summary>
-        /// Get current user info (requires authentication)
-        /// GET: api/auth/me
-        /// </summary>
-        [HttpGet("me")]
+        [HttpGet("getCurrentUser")]
         [Authorize]
         public ActionResult GetCurrentUser()
         {

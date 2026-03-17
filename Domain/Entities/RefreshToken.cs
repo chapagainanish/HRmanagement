@@ -13,7 +13,7 @@ namespace Domain.Entities
         public bool IsRevoked => RevokedAt != null;
         public bool IsActive => !IsRevoked && !IsExpired;
 
-        // Navigation property
+       
         public User User { get; set; } = null!;
     }
 }

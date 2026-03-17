@@ -16,7 +16,7 @@ namespace Domain.Entities
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        // Navigation property for refresh tokens
+  
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

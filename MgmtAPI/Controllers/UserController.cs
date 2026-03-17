@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MgmtAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userService;
@@ -17,7 +19,6 @@ namespace MgmtAPI.Controllers
             _userService = userService;
         }
 
-        // GET: api/user
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
         {
@@ -25,8 +26,7 @@ namespace MgmtAPI.Controllers
             return Ok(users);
         }
 
-        // GET: api/user/5
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<UserDto>> GetById(int id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -37,7 +37,6 @@ namespace MgmtAPI.Controllers
             return Ok(user);
         }
 
-        // GET: api/user/by-email?email=test@example.com
         [HttpGet("by-email")]
         public async Task<ActionResult<UserDto>> GetByEmail([FromQuery] string email)
         {
@@ -49,8 +48,7 @@ namespace MgmtAPI.Controllers
             return Ok(user);
         }
 
-        // POST: api/user
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<UserDto>> Create([FromBody] CreateUserDto dto)
         {
             if (!ModelState.IsValid)
@@ -62,8 +60,7 @@ namespace MgmtAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.UserId }, created);
         }
 
-        // PUT: api/user/5
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
             if (!ModelState.IsValid)
@@ -79,8 +76,7 @@ namespace MgmtAPI.Controllers
             return NotFound();
         }
 
-        // DELETE: api/user/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _userService.DeleteAsync(id);

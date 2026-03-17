@@ -3,9 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs
 {
-    /// <summary>
-    /// DTO for returning attendance data
-    /// </summary>
     public class AttendenceDto
     {
         public int AttendanceId { get; set; }
@@ -16,9 +13,7 @@ namespace Application.DTOs
         public bool IsPresent { get; set; }
     }
 
-    /// <summary>
-    /// DTO for creating new attendance record
-    /// </summary>
+  
     public class CreateAttendenceDto
     {
         [Required(ErrorMessage = "EmployeeId is required")]
@@ -35,9 +30,6 @@ namespace Application.DTOs
         public bool IsPresent { get; set; }
     }
 
-    /// <summary>
-    /// DTO for updating existing attendance record
-    /// </summary>
     public class UpdateAttendenceDto
     {
         public TimeSpan? CheckIn { get; set; }

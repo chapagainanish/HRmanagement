@@ -17,7 +17,7 @@ namespace MgmtAPI.Controllers
             _travelExpenseService = travelExpenseService;
         }
 
-        // GET: api/travelexpense
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TravelExpenseDto>>> GetAll()
         {
@@ -25,8 +25,8 @@ namespace MgmtAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/travelexpense/5
-        [HttpGet("{id}")]
+        
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<TravelExpenseDto>> GetById(int id)
         {
             var expense = await _travelExpenseService.GetByIdAsync(id);
@@ -37,8 +37,8 @@ namespace MgmtAPI.Controllers
             return Ok(expense);
         }
 
-        // POST: api/travelexpense
-        [HttpPost]
+        
+        [HttpPost("create")]
         public async Task<ActionResult<TravelExpenseDto>> Create([FromBody] CreateTravelExpenseDto dto)
         {
             if (!ModelState.IsValid)
@@ -50,8 +50,7 @@ namespace MgmtAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.TravelExpenseId }, created);
         }
 
-        // PUT: api/travelexpense/5
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTravelExpenseDto dto)
         {
             if (!ModelState.IsValid)
@@ -67,8 +66,8 @@ namespace MgmtAPI.Controllers
             return NotFound();
         }
 
-        // DELETE: api/travelexpense/5
-        [HttpDelete("{id}")]
+    
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _travelExpenseService.DeleteAsync(id);

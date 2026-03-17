@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -45,10 +44,26 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Configure JWT Settings
+//// Configure CORS for React development servers
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("ReactApp", policy =>
+//    {
+//        policy.WithOrigins(
+//                "http://localhost:5173",  // Vite default
+//                "http://localhost:3000",  // CRA default
+//                "http://localhost:5174"   // Vite alternate
+//            )
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowCredentials(); // Needed if you ever use cookies
+//    });
+//});
+
+
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-// Configure JWT Authentication
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
 builder.Services.AddAuthentication(options =>
 {
@@ -74,21 +89,23 @@ builder.Services.AddAuthorization();
 
 
 builder.Services.AddAppDependencies();
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
 });
+
 builder.Services.AddDbContext<Infrastructure.Data.ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Register global exception handler
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddProblemDetails();
 
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment()) // by default enabled only for dev.
+if (app.Environment.IsDevelopment()) 
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -97,6 +114,9 @@ if (app.Environment.IsDevelopment()) // by default enabled only for dev.
 
 app.UseHttpsRedirection();
 
+//// Enable CORS - MUST be before Authentication/Authorization
+//app.UseCors("ReactApp");
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 

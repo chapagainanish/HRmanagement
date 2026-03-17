@@ -17,31 +17,32 @@ namespace Application.DependencyInjection
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITravelExpenseService, TravelExpenseService>();
             services.AddScoped<IAuthService, AuthService>();
+            
             //takes all the validators from this assembly
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             //If individual validadators are required
-            //// Organization validators
+            
             //services.AddScoped<IValidator<CreateOrganizationDto>, CreateOrganizationDtoValidator>();
             //services.AddScoped<IValidator<UpdateOrganizationDto>, UpdateOrganizationDtoValidator>();
 
-            //// Employee validators
+            
             //services.AddScoped<IValidator<CreateEmployeeDto>, CreateEmployeeDtoValidator>();
             //services.AddScoped<IValidator<UpdateEmployeeDto>, UpdateEmployeeDtoValidator>();
 
-            //// User validators
+            
             //services.AddScoped<IValidator<CreateUserDto>, CreateUserDtoValidator>();
             //services.AddScoped<IValidator<UpdateUserDto>, UpdateUserDtoValidator>();
 
-            //// Attendance validators
+            
             //services.AddScoped<IValidator<CreateAttendenceDto>, CreateAttendenceDtoValidator>();
             //services.AddScoped<IValidator<UpdateAttendenceDto>, UpdateAttendenceDtoValidator>();
 
-            //// Payroll validators
+            
             //services.AddScoped<IValidator<CreatePayrollDto>, CreatePayrollDtoValidator>();
             //services.AddScoped<IValidator<UpdatePayrollDto>, UpdatePayrollDtoValidator>();
 
-            //// Travel Expense validators
+            
             //services.AddScoped<IValidator<CreateTravelExpenseDto>, CreateTravelExpenseDtoValidator>();
             //services.AddScoped<IValidator<UpdateTravelExpenseDto>, UpdateTravelExpenseDtoValidator>();
 

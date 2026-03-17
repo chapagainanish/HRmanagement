@@ -25,7 +25,6 @@ namespace Application.DTOs
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        // Accept plaintext password and hash it server-side in the service
         [Required]
         public string Password { get; set; } = string.Empty;
 

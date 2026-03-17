@@ -19,7 +19,6 @@ namespace MgmtAPI.Controllers
             _payrollService = payrollService;
         }
 
-        // GET: api/payroll/by-month?month=2024-01-01
         [HttpGet("by-month")]
         public async Task<ActionResult<IEnumerable<PayrollDto>>> GetByMonth([FromQuery] DateTime month)
         {
@@ -27,8 +26,8 @@ namespace MgmtAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/payroll/5
-        [HttpGet("/{id}")]
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<PayrollDto>> GetById(int id)
         {
             var payroll = await _payrollService.GetByIdAsync(id);
@@ -39,7 +38,6 @@ namespace MgmtAPI.Controllers
             return Ok(payroll);
         }
 
-        // POST: api/payroll
         [HttpPost("CreatePayroll")]
         public async Task<ActionResult<PayrollDto>> Create([FromBody] CreatePayrollDto dto)
         {
@@ -52,7 +50,7 @@ namespace MgmtAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.PayrollId }, created);
         }
 
-        // PUT: api/payroll/5
+     
         [HttpPut("UpdatePayroll/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdatePayrollDto dto)
         {
@@ -69,7 +67,7 @@ namespace MgmtAPI.Controllers
             return NotFound();
         }
 
-        // DELETE: api/payroll/5
+       
         [HttpDelete("deletepayroll/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

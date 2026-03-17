@@ -11,7 +11,7 @@ namespace Domain.DependencyInjection
     {
         public static IServiceCollection AddDomainDI(this IServiceCollection services)
         {
-            // Register application services here
+  
             return services;
         }
     }

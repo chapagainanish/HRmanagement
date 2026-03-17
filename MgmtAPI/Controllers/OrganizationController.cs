@@ -17,8 +17,7 @@ namespace MgmtAPI.Controllers
             _organizationService = organizationService;
         }
 
-        // GET: api/organization
-        [HttpGet]
+        [HttpGet("get/all")]
         public async Task<ActionResult<IEnumerable<OrganizationDto>>> GetAll()
         {
             var result = await _organizationService.GetAllAsync();
@@ -26,7 +25,7 @@ namespace MgmtAPI.Controllers
         }
 
         // GET: api/organization/5
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<OrganizationDto>> GetById(int id)
         {
             var organization = await _organizationService.GetByIdAsync(id);
@@ -37,8 +36,8 @@ namespace MgmtAPI.Controllers
             return Ok(organization);
         }
 
-        // POST: api/organization
-        [HttpPost]
+    
+        [HttpPost("post")]
         public async Task<ActionResult<OrganizationDto>> Create([FromBody] CreateOrganizationDto dto)
         {
             if (!ModelState.IsValid)
@@ -50,8 +49,8 @@ namespace MgmtAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.OrganizationId }, created);
         }
 
-        // PUT: api/organization/5
-        [HttpPut("{id}")]
+       
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateOrganizationDto dto)
         {
             if (!ModelState.IsValid)
@@ -67,8 +66,8 @@ namespace MgmtAPI.Controllers
             return NotFound();
         }
 
-        // DELETE: api/organization/5
-        [HttpDelete("{id}")]
+    
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _organizationService.DeleteAsync(id);

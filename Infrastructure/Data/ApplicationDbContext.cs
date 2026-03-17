@@ -28,7 +28,7 @@ namespace Infrastructure.Data
         public DbSet<Performance> Performances { get; set; }
         public DbSet<Recruitment> Recruitments { get; set; }
         public DbSet<TravelExpense> Expenses { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; } // New DbSet for RefreshToken
+        public DbSet<RefreshToken> RefreshTokens { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

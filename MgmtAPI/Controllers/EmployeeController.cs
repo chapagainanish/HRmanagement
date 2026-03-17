@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MgmtAPI.Controllers
 {
-    /// <summary>
-    /// Controller for managing employees
-    /// </summary>
+  
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -22,10 +20,7 @@ namespace MgmtAPI.Controllers
             _employeeService = employeeService;
         }
 
-        /// <summary>
-        /// Get all employees
-        /// GET: api/employee
-        /// </summary>
+        [Authorize(Roles = "Admin,Manager,User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAll()
         {
@@ -33,11 +28,8 @@ namespace MgmtAPI.Controllers
             return Ok(employees);
         }
 
-        /// <summary>
-        /// Get employee by ID
-        /// GET: api/employee/5
-        /// </summary>
-        [HttpGet("{id}")]
+        
+        [HttpGet("get/by-id/{id}")]
         public async Task<ActionResult<EmployeeDto>> GetById(int id)
         {
             var employee = await _employeeService.GetByIdAsync(id);
@@ -47,12 +39,8 @@ namespace MgmtAPI.Controllers
             }
             return Ok(employee);
         }
-
-        /// <summary>
-        /// Create a new employee
-        /// POST: api/employee
-        /// </summary>
-        [HttpPost]
+        [Authorize(Roles = "Admin,Manager,User")]
+        [HttpPost("create")]
         public async Task<ActionResult<EmployeeDto>> Create([FromBody] CreateEmployeeDto dto)
         {
             if (!ModelState.IsValid)
@@ -63,12 +51,8 @@ namespace MgmtAPI.Controllers
             var created = await _employeeService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.EmployeeId }, created);
         }
-
-        /// <summary>
-        /// Update an existing employee
-        /// PUT: api/employee/5
-        /// </summary>
-        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateEmployeeDto dto)
         {
             if (!ModelState.IsValid)
@@ -83,12 +67,8 @@ namespace MgmtAPI.Controllers
             }
             return NotFound();
         }
-
-        /// <summary>
-        /// Delete an employee
-        /// DELETE: api/employee/5
-        /// </summary>
-        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _employeeService.DeleteAsync(id);
